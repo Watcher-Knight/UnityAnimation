@@ -1,6 +1,0 @@
-[submodule "Plugins/CSharpLinqExtensions"]
-	path = Plugins/CSharpLinqExtensions
-	url = https://github.com/Watcher-Knight/CSharpLinqExtensions.git
-[submodule "Plugins/UnityObjectExtensions"]
-	path = Plugins/UnityObjectExtensions
-	url = https://github.com/Watcher-Knight/UnityObjectExtensions.git
