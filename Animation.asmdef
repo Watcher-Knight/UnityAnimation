@@ -2,7 +2,6 @@
     "name": "Animation",
     "rootNamespace": "",
     "references": [
-        "Events"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -9,6 +9,9 @@ public abstract class Animator2D : MonoBehaviour
     private readonly Dictionary<SpriteRenderer, AnimationClip> Clips = new();
     protected void PlayClip(SpriteRenderer renderer, AnimationClip clip, float speed, Action onFinish = null)
     {
+        if (renderer == null) return;
+        if (clip == null) return;
+
         IEnumerator task()
         {
             while (true)
