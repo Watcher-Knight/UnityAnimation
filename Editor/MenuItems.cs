@@ -4,27 +4,30 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-public class ManuItems
+namespace Animation2D.Editor
 {
-    [MenuItem("Assets/Create Animation Clip")]
-    private static void CreateAnimationClip()
+    public class ManuItems
     {
-        string path = AssetDatabase.GetAssetPath(Selection.activeObject);
-        Object[] objects = AssetDatabase.LoadAllAssetsAtPath(path);
-        Sprite[] sprites = objects.Where(o => o is Sprite).Cast<Sprite>().ToArray();
+        [MenuItem("Assets/Create Animation Clip")]
+        private static void CreateAnimationClip()
+        {
+            string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+            Object[] objects = AssetDatabase.LoadAllAssetsAtPath(path);
+            Sprite[] sprites = objects.Where(o => o is Sprite).Cast<Sprite>().ToArray();
 
-        string[] pathList = path.Split('/');
-        string[] directoryList = pathList.Take(pathList.Count() - 1).ToArray();
-        string directory = string.Join('/', directoryList);
-        string[] nameList = pathList.Last().Split(".");
-        nameList = nameList.Take(nameList.Count() - 1).ToArray();
-        string name = string.Join('/', nameList);
+            string[] pathList = path.Split('/');
+            string[] directoryList = pathList.Take(pathList.Count() - 1).ToArray();
+            string directory = string.Join('/', directoryList);
+            string[] nameList = pathList.Last().Split(".");
+            nameList = nameList.Take(nameList.Count() - 1).ToArray();
+            string name = string.Join('/', nameList);
 
-        AnimationClip clip = ScriptableObjectFactory.Create<AnimationClip>(directory, name);
+            AnimationClip clip = ScriptableObjectFactory.Create<AnimationClip>(directory, name);
 
-        FieldInfo spritesField = clip.GetType().GetField("sprites", BindingFlags.NonPublic | BindingFlags.Instance);
-        spritesField.SetValue(clip, new List<Sprite>(sprites));
+            FieldInfo spritesField = clip.GetType().GetField("sprites", BindingFlags.NonPublic | BindingFlags.Instance);
+            spritesField.SetValue(clip, new List<Sprite>(sprites));
 
-        EditorUtility.SetDirty(clip);
+            EditorUtility.SetDirty(clip);
+        }
     }
 }

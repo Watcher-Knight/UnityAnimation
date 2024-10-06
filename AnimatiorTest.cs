@@ -1,13 +1,17 @@
 using UnityEngine;
 
-[AddComponentMenu("2D Animation/Animator Test")]
-public class AnimatiorTest : Animator2D
+namespace Animation2D
 {
-    [SerializeField] private AnimationClip Clip;
-    [SerializeField] private SpriteRenderer Renderer;
-    [SerializeField] private float Speed = 1f;
-    [ContextMenu("Play Animation")] public void PlayAnimation()
+    [AddComponentMenu("2D Animation/Animator Test")]
+    public class AnimatiorTest : Animator2D
     {
-        PlayClip(Renderer, Clip, Speed);
+        [SerializeField] private AnimationClip Clip;
+        [SerializeField] private SpriteRenderer Renderer;
+        [SerializeField] private float Speed = 1f;
+        [ContextMenu("Play Animation")]
+        public void PlayAnimation()
+        {
+            PlayClip(Renderer, Clip, Speed);
+        }
     }
 }

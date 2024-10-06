@@ -3,39 +3,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Animator2D : MonoBehaviour
+namespace Animation2D
 {
-    private readonly Dictionary<SpriteRenderer, Coroutine> Coroutines = new();
-    private readonly Dictionary<SpriteRenderer, AnimationClip> Clips = new();
-    protected void PlayClip(SpriteRenderer renderer, AnimationClip clip, float speed, Action onFinish = null)
+    public abstract class Animator2D : MonoBehaviour
     {
-        if (renderer == null) return;
-        if (clip == null) return;
-
-        IEnumerator task()
+        private readonly Dictionary<SpriteRenderer, Coroutine> Coroutines = new();
+        private readonly Dictionary<SpriteRenderer, AnimationClip> Clips = new();
+        protected void PlayClip(SpriteRenderer renderer, AnimationClip clip, float speed, Action onFinish = null)
         {
-            while (true)
+            if (renderer == null) return;
+            if (clip == null) return;
+
+            IEnumerator task()
             {
-                foreach (Sprite sprite in clip.GetSprites())
+                while (true)
                 {
-                    renderer.sprite = sprite;
-                    yield return new WaitForSeconds(1 / speed);
+                    foreach (Sprite sprite in clip.GetSprites())
+                    {
+                        renderer.sprite = sprite;
+                        yield return new WaitForSeconds(1 / speed);
+                    }
+
+                    if (!clip.Repeat) break;
                 }
 
-                if (!clip.Repeat) break;
+                onFinish?.Invoke();
             }
 
-            onFinish?.Invoke();
+            if (Coroutines.ContainsKey(renderer)) StopCoroutine(Coroutines[renderer]);
+            Coroutines[renderer] = StartCoroutine(task());
+            Clips[renderer] = clip;
         }
 
-        if (Coroutines.ContainsKey(renderer)) StopCoroutine(Coroutines[renderer]);
-        Coroutines[renderer] = StartCoroutine(task());
-        Clips[renderer] = clip;
-    }
-
-    protected AnimationClip GetClip(SpriteRenderer renderer)
-    {
-        if (Clips.ContainsKey(renderer)) return Clips[renderer];
-        return null;
+        protected AnimationClip GetClip(SpriteRenderer renderer)
+        {
+            if (Clips.ContainsKey(renderer)) return Clips[renderer];
+            return null;
+        }
     }
 }

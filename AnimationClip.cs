@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Animation2D
+{
 [CreateAssetMenu(fileName = "AnimationClip", menuName = "AnimationClip", order = 0)]
 public class AnimationClip : ScriptableObject
 {
@@ -8,4 +10,5 @@ public class AnimationClip : ScriptableObject
     [field: SerializeField] public bool Repeat { get; private set; }
 
     public Sprite[] GetSprites() => sprites.ToArray();
+}
 }
